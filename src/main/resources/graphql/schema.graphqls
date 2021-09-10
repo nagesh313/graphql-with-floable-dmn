@@ -1,0 +1,59 @@
+type Drug {
+    id: ID
+    name: String!
+    description: String
+}
+type DrugOutput{
+    name: String!
+    description: String
+    valid: Boolean
+    routing: String
+    reviewLevel: String
+    reason: String
+}
+type Prescription {
+    id: ID
+    name: String!
+    description: String
+    drugList: [Drug]
+}
+
+#Prescription API
+type Query {
+    #Fetch a prescription by id
+    prescription(id: ID): Prescription
+    #Fetch all prescriptions
+    prescriptionList: [Prescription]
+    #Fetch a drug by id
+    #DMN will be triggered only for this query
+    drug(id: ID): DrugOutput
+    #Fetch all drugs
+    drugList: [Drug]
+}
+
+#Drug Input object is used to create or update a Drug
+input DrugInput {
+    id: ID
+    name: String!
+    description: String!
+}
+
+#Prescription Input object is used to create or update a Prescription
+input PrescriptionInput {
+    id: ID  
+    name: String!
+    description: String
+    drugList: [DrugInput]
+}
+
+#Prescription API Mutations
+type Mutation {
+    #Creates a prescription
+    createPrescription(prescription: PrescriptionInput!): Prescription
+    #Updates a prescription
+    updatePrescription(prescription: PrescriptionInput!): Prescription
+    #Creates a drug
+    createDrug(drug: DrugInput!): Drug
+    #Updates a drug
+    updateDrug(drug: DrugInput!): Drug
+}
